@@ -319,6 +319,11 @@ size_t mutate_reads(seq_file_t *sfile, gzFile gzout, FileList *flist, float err)
   return num_bases;
 }
 
+<<<<<<< HEAD
+static uint64_t uniform(double min, double max)
+{
+    return rand() / (RAND_MAX + 1.0) * (max - min) + min;
+=======
 // Random uniform integer in range [0,n) (0 <= x < n) without modulo bias
 // Does this by discarding some random numbers
 static inline uint64_t random_uniform(uint64_t n)
@@ -335,10 +340,23 @@ static inline uint64_t random_uniform(uint64_t n)
   } while(r >= limit);
 
   return r % n;
+>>>>>>> a049a7f3e1dbd8782ba8292f9bd6926ab7f69abe
 }
 
 static size_t rand_chrom(read_t *chroms, size_t nchroms, size_t totallen)
 {
+<<<<<<< HEAD
+  uint64_t i, r = uniform(0, totallen);
+
+  r %= totallen;
+
+  size_t sumlen = 0;
+  for(i = 0; i < nchroms; i++) {
+    sumlen += chroms[i].seq.end;
+    if(r < sumlen)
+      return i;
+  }
+=======
   uint64_t i, r = random_uniform(totallen), sum = 0;
 
   for(i = 0; i < nchroms; i++) {
@@ -346,6 +364,7 @@ static size_t rand_chrom(read_t *chroms, size_t nchroms, size_t totallen)
     if(r < sum) return i;
   }
 
+>>>>>>> a049a7f3e1dbd8782ba8292f9bd6926ab7f69abe
   die("Shouldn't reach here");
 }
 
